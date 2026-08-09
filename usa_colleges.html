@@ -60,6 +60,7 @@
     .dbtn.d-bas  { background: #065f46; color: #fff; }
     .dbtn.d-bas.active  { border-color: #6ee7b7; }
     /* sort arrow indicators */
+    thead th.sortable::after  { content: ' ↕'; font-size: 9px; opacity: 0.5; }
     thead th.sort-asc::after  { content: ' ▲'; font-size: 9px; }
     thead th.sort-desc::after { content: ' ▼'; font-size: 9px; }
     .table-wrapper { max-width: 1480px; margin: 12px auto 36px; padding: 0 16px; overflow-x: auto; }
@@ -71,6 +72,7 @@
     thead th.sortable:hover { background: #24527a; }
     thead th.sort-asc::after  { content: " ▲"; font-size: 9px; opacity: 0.9; }
     thead th.sort-desc::after { content: " ▼"; font-size: 9px; opacity: 0.9; }
+    thead th.sortable:not(.sort-asc):not(.sort-desc)::after { content: " ↕"; font-size: 9px; opacity: 0.5; }
     tbody tr { border-bottom: 1px solid #e5e7eb; }
     tbody tr:hover { background: #f0f6ff; }
     tbody tr:last-child { border-bottom: none; }
@@ -190,8 +192,8 @@
         <th>Region</th>
         <th>College &amp; Location</th><th>Website</th>
         <th>Top Courses Offered</th>
-        <th class="sortable" id="th-open"  onclick="sortBy('open')">App Open &#9650;&#9660;</th>
-        <th class="sortable" id="th-close" onclick="sortBy('close')">App Deadline &#9650;&#9660;</th>
+        <th class="sortable" id="th-open"  onclick="sortBy('open')">📅 App Open</th>
+        <th class="sortable" id="th-close" onclick="sortBy('close')">📅 App Deadline</th>
         <th>Prerequisites</th>
         <th class="sortable" id="th-sat" onclick="sortBy('sat')">Min SAT</th>
       </tr>

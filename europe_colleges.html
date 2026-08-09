@@ -57,6 +57,7 @@
     thead th.narrow { width: 90px; min-width: 80px; }
     thead th.sortable { cursor: pointer; user-select: none; }
     thead th.sortable:hover { background: #24527a; }
+    thead th.sortable::after  { content: " ↕"; font-size: 10px; opacity: 0.5; }
     thead th.sort-asc::after  { content: " ▲"; font-size: 10px; opacity: 0.9; }
     thead th.sort-desc::after { content: " ▼"; font-size: 10px; opacity: 0.9; }
     tbody tr { border-bottom: 1px solid #e5e7eb; }
@@ -246,8 +247,8 @@
         <th>Website</th>
         <th>Specialisation</th>
         <th>Top Courses Offered</th>
-        <th class="sortable" id="th-open"  onclick="sortByCol('open')">App Open Date</th>
-        <th class="sortable" id="th-close" onclick="sortByCol('close')">App Deadline</th>
+        <th class="sortable" id="th-open"  onclick="sortByCol('open')">📅 App Open Date</th>
+        <th class="sortable" id="th-close" onclick="sortByCol('close')">📅 App Deadline</th>
         <th class="narrow">Prerequisites (Intl. Students)</th>
         <th>Min SAT Score</th>
       </tr>
