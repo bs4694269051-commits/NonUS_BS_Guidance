@@ -210,7 +210,8 @@
   <select id="satFilter" onchange="filterTable()">
     <option value="">All SAT Status</option>
     <option value="na">SAT Not Required (N/A)</option>
-    <option value="required">SAT Required</option>
+    <option value="required">SAT Required (min score)</option>
+    <option value="supplementary">SAT Supplementary (accepted but not required)</option>
   </select>
   <div class="stats" id="statsLabel">Showing 61 of 61 universities</div>
 </div>
@@ -511,8 +512,10 @@ function filterTable() {
     const degreeMatch  = !activeDegree || c.courses.some(x => x.startsWith(activeDegree + ' ') || x === activeDegree);
     const courseMatch  = !course || c.courses.some(x => x.toLowerCase().replace(/^(bs|ba|bba|bfa|bas)\s+/i,'').includes(course));
     let satMatch = true;
-    if (sat === 'na')       satMatch = c.minSAT === null;
-    else if (sat === 'required') satMatch = c.minSAT !== null;
+    const isSupp = c.satNote && c.satNote.toLowerCase().includes('supplementary');
+    if (sat === 'na')             satMatch = c.minSAT === null && !isSupp;
+    else if (sat === 'required')  satMatch = c.minSAT !== null;
+    else if (sat === 'supplementary') satMatch = isSupp && c.minSAT === null;
     return textMatch && countryMatch && specMatch && satMatch && degreeMatch && courseMatch;
   });
 
