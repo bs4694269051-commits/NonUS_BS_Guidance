@@ -242,7 +242,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>🌍 Country</th>
+        <th class="sortable" id="th-country" onclick="sortByCol('country')">🌍 Country</th>
         <th>🏫 College &amp; Location</th>
         <th>🌐 Website</th>
         <th>🔬 Specialisation</th>
@@ -487,11 +487,17 @@ function sortByCol(col) {
     currentSort.col = col;
     currentSort.dir = 'asc';
   }
-  ['open','close'].forEach(c => {
-    document.getElementById('th-' + c).classList.remove('sort-asc','sort-desc');
+  ['open','close','country'].forEach(c => {
+    const el = document.getElementById('th-' + c);
+    if (el) el.classList.remove('sort-asc','sort-desc');
   });
   document.getElementById('th-' + col).classList.add(currentSort.dir === 'asc' ? 'sort-asc' : 'sort-desc');
   renderRows([...activeData].sort((a,b) => {
+    if (col === 'country') {
+      return currentSort.dir === 'asc'
+        ? a.country.localeCompare(b.country)
+        : b.country.localeCompare(a.country);
+    }
     const da = parseDate(col === 'open' ? a.appOpen : a.appClose);
     const db = parseDate(col === 'open' ? b.appOpen : b.appClose);
     return currentSort.dir === 'asc' ? da - db : db - da;
