@@ -80,9 +80,9 @@
     .dbtn.d-bas  { background: #065f46; color: #fff; }
     .dbtn.d-bas.active  { border-color: #6ee7b7; }
     /* sort arrow indicators */
-    thead th.sortable::after  { content: ' ↕'; font-size: 9px; opacity: 0.5; }
-    thead th.sort-asc::after  { content: ' ▲'; font-size: 9px; }
-    thead th.sort-desc::after { content: ' ▼'; font-size: 9px; }
+    thead th.sortable::after  { content: ' ▼'; font-size: 9px; opacity: 0.55; }
+    thead th.sort-asc::after  { content: ' ▲'; font-size: 11px; opacity: 1; }
+    thead th.sort-desc::after { content: ' ▼'; font-size: 11px; opacity: 1; }
     .table-wrapper { max-width: 1480px; margin: 12px auto 36px; padding: 0 16px; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,0.09); }
     thead tr { background: #1a3a5c; color: #fff; }
@@ -90,9 +90,9 @@
     thead th:last-child { border-right: none; }
     thead th.sortable { cursor: pointer; user-select: none; }
     thead th.sortable:hover { background: #24527a; }
-    thead th.sort-asc::after  { content: " ▲"; font-size: 9px; opacity: 0.9; }
-    thead th.sort-desc::after { content: " ▼"; font-size: 9px; opacity: 0.9; }
-    thead th.sortable:not(.sort-asc):not(.sort-desc)::after { content: " ↕"; font-size: 9px; opacity: 0.5; }
+    thead th.sort-asc::after  { content: " ▲"; font-size: 11px; opacity: 1; }
+    thead th.sort-desc::after { content: " ▼"; font-size: 11px; opacity: 1; }
+    thead th.sortable:not(.sort-asc):not(.sort-desc)::after { content: " ▼"; font-size: 9px; opacity: 0.55; }
     tbody tr { border-bottom: 1px solid #e5e7eb; }
     tbody tr:hover { background: #f0f6ff; }
     tbody tr:last-child { border-bottom: none; }
