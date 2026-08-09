@@ -46,6 +46,8 @@
     .country-btn.au.active { border-color: #713f12; }
     .country-btn.nz   { background: #d1fae5; color: #065f46; }
     .country-btn.nz.active { border-color: #065f46; }
+    .country-btn.dk   { background: #fde8e8; color: #9b1c1c; }
+    .country-btn.dk.active { border-color: #9b1c1c; }
 
     .table-wrapper { max-width: 1480px; margin: 12px auto 36px; padding: 0 16px; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,0.09); }
@@ -74,6 +76,7 @@
     .country-IT { background: #d4f0fb; color: #0c4a6e; }
     .country-CA { background: #fee2e2; color: #991b1b; }
     .country-FR { background: #ede9fe; color: #4c1d95; }
+    .country-DK { background: #fde8e8; color: #9b1c1c; }
 
     /* Specialisation badges */
     .spec-tag { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; margin-top: 2px; }
@@ -173,6 +176,7 @@
   <button class="country-btn fr" onclick="setCountry('France')">&#127467;&#127479; France</button>
   <button class="country-btn au" onclick="setCountry('Australia')">&#127462;&#127482; Australia</button>
   <button class="country-btn nz" onclick="setCountry('New Zealand')">&#127475;&#127487; New Zealand</button>
+  <button class="country-btn dk" onclick="setCountry('Denmark')">&#127465;&#127472; Denmark</button>
 </div>
 
 <!-- Degree prefix filters -->
@@ -369,7 +373,13 @@ const colleges = [
   { country:"New Zealand", flag:"NZ", spec:"General", name:"University of Canterbury", location:"Christchurch, New Zealand", website:"https://www.canterbury.ac.nz/", courses:["Mechanical Engineering","Computer Science","Arts","Forestry","Science","Commerce"], appOpen:"Aug 1, 2025", appClose:"Dec 1, 2025", prereqUrl:"https://www.canterbury.ac.nz/study/apply/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
   { country:"New Zealand", flag:"NZ", spec:"AIGovernance", name:"University of Waikato", location:"Hamilton, New Zealand", website:"https://www.waikato.ac.nz/", courses:["Computer Science","AI & Data Science","Law","Engineering","Management","Biological Sciences"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.waikato.ac.nz/study/apply/international/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
   { country:"New Zealand", flag:"NZ", spec:"General", name:"Massey University", location:"Palmerston North, New Zealand", website:"https://www.massey.ac.nz/", courses:["Aviation","Engineering","Computer Science","Communications","Food Technology","Nursing"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.massey.ac.nz/study/apply/international-students/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
-  { country:"New Zealand", flag:"NZ", spec:"Cybersecurity", name:"Auckland University of Technology (AUT)", location:"Auckland, New Zealand", website:"https://www.aut.ac.nz/", courses:["Cybersecurity","Computer Science","Network Engineering","Data Science","Software Engineering","Business Information Systems"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.aut.ac.nz/study-at-aut/apply/international-students", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." }
+  { country:"New Zealand", flag:"NZ", spec:"Cybersecurity", name:"Auckland University of Technology (AUT)", location:"Auckland, New Zealand", website:"https://www.aut.ac.nz/", courses:["Cybersecurity","Computer Science","Network Engineering","Data Science","Software Engineering","Business Information Systems"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.aut.ac.nz/study-at-aut/apply/international-students", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+
+  // ── DENMARK (4) ──────────────────────────────────────────────────────────
+  { country:"Denmark", flag:"DK", spec:"General", name:"Technical University of Denmark (DTU)", location:"Kongens Lyngby, Denmark", website:"https://www.dtu.dk/english/", courses:["General Engineering","Civil Engineering","Electrical Engineering","Mechanical Engineering","Software Technology","Chemical & Biochemical Engineering"], appOpen:"Feb 1, 2026", appClose:"Mar 15, 2026", prereqUrl:"https://www.dtu.dk/english/education/bachelor-beng/admission", minSAT:null, satNote:"SAT not accepted; Danish upper secondary exam (STX/HHX/HTX/HF) or equivalent international qualification required" },
+  { country:"Denmark", flag:"DK", spec:"General", name:"IT University of Copenhagen (ITU)", location:"Copenhagen, Denmark", website:"https://en.itu.dk/", courses:["BSc Data Science"], appOpen:"Feb 1, 2026", appClose:"Mar 15, 2026", prereqUrl:"https://en.itu.dk/Programmes/BSc-Programmes/Data-Science/Admission-and-Tuition", minSAT:null, satNote:"SAT not accepted; Danish upper secondary exam (STX/HHX/HTX/HF) or equivalent international qualification required" },
+  { country:"Denmark", flag:"DK", spec:"General", name:"Copenhagen Business School (CBS)", location:"Frederiksberg, Denmark", website:"https://www.cbs.dk/en/", courses:["BSc in Business Administration and Information Systems","BSc in Business Administration and Psychology","BSc in International Business"], appOpen:"Feb 1, 2026", appClose:"Mar 15, 2026", prereqUrl:"https://www.cbs.dk/en/study/bachelor/bsc-bachelor-programmes", minSAT:null, satNote:"SAT not accepted; Danish upper secondary exam (STX/HHX/HTX/HF) or equivalent international qualification required" },
+  { country:"Denmark", flag:"DK", spec:"Environmental", name:"University of Southern Denmark (SDU)", location:"Odense, Denmark", website:"https://www.sdu.dk/en/", courses:["BSc in Biology","BSc in Chemistry","BSc in Physics","BSc in Mathematics","BSc in Environmental Science","BSc in Computer Science"], appOpen:"Feb 1, 2026", appClose:"Jul 5, 2026", prereqUrl:"https://www.sdu.dk/en/uddannelse/bachelor", minSAT:null, satNote:"SAT not accepted; Danish upper secondary exam (STX/HHX/HTX/HF) or equivalent international qualification required" }
 ];
 
 function parseDate(str) { return new Date(str); }
@@ -387,7 +397,7 @@ function setCountry(country) {
   if (!country) {
     document.querySelector('.country-btn.all').classList.add('active');
   } else {
-    const map = { Germany:'de', Netherlands:'nl', Poland:'pl', Ireland:'ie', Italy:'it', Canada:'ca', France:'fr', Australia:'au', 'New Zealand':'nz' };
+    const map = { Germany:'de', Netherlands:'nl', Poland:'pl', Ireland:'ie', Italy:'it', Canada:'ca', France:'fr', Australia:'au', 'New Zealand':'nz', Denmark:'dk' };
     document.querySelector('.country-btn.' + map[country]).classList.add('active');
   }
   filterTable();
