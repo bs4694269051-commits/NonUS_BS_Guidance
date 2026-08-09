@@ -7,9 +7,14 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; background: #f0f4f8; color: #1f2328; }
-    header { background: #1a3a5c; color: #fff; padding: 26px 32px 20px; text-align: center; }
-    header h1 { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
-    header p { font-size: 12px; color: #b8cfe4; }
+    header {
+      background:
+        linear-gradient(rgba(10,30,60,0.70), rgba(10,30,60,0.80)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png') center/cover no-repeat;
+      color: #fff; padding: 32px 32px 24px; text-align: center;
+    }
+    header h1 { font-size: 21px; font-weight: 700; margin-bottom: 5px; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+    header p { font-size: 12px; color: #cde0f5; }
     .flag-bar { display: flex; justify-content: center; gap: 10px; background: #0e2a45; padding: 7px 16px; flex-wrap: wrap; }
     .flag-bar span { background: #2563a8; color: #fff; border-radius: 20px; padding: 2px 11px; font-size: 11px; font-weight: 500; }
     .controls { max-width: 1480px; margin: 14px auto 0; padding: 0 16px; display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
