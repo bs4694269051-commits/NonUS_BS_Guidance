@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>International Public Universities – Bachelor's Degree Application Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; background: #f0f4f8; color: #1f2328; }
+
+    header { background: #1a3a5c; color: #fff; padding: 26px 32px 20px; text-align: center; }
+    header h1 { font-size: 20px; font-weight: 700; margin-bottom: 5px; }
+    header p { font-size: 12px; color: #b8cfe4; }
+
+    .flag-bar { display: flex; justify-content: center; gap: 10px; background: #0e2a45; padding: 7px 16px; flex-wrap: wrap; }
+    .flag-bar span { background: #2563a8; color: #fff; border-radius: 20px; padding: 2px 11px; font-size: 11px; font-weight: 500; }
+
+    .controls { max-width: 1480px; margin: 16px auto 0; padding: 0 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .controls input[type="text"] { flex: 1; min-width: 180px; padding: 7px 13px; border: 1px solid #d1d9e0; border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
+    .controls input[type="text"]:focus { border-color: #3b82d4; }
+    .controls select { padding: 7px 11px; border: 1px solid #d1d9e0; border-radius: 6px; font-size: 13px; background: #fff; color: #1f2328; }
+    .stats { margin-left: auto; font-size: 12px; color: #57606a; white-space: nowrap; align-self: center; font-style: italic; }
+
+    /* Country filter pill buttons */
+    .country-filters { max-width: 1480px; margin: 10px auto 0; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .country-btn { padding: 5px 16px; border-radius: 20px; border: 2px solid transparent; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: #e9eef5; color: #1a3a5c; }
+    .country-btn:hover { opacity: 0.85; }
+    .country-btn.active { border-color: #1a3a5c; }
+    .country-btn.all  { background: #1a3a5c; color: #fff; }
+    .country-btn.all.active { border-color: #fff; }
+    .country-btn.de   { background: #fff3cd; color: #856404; }
+    .country-btn.de.active { border-color: #856404; }
+    .country-btn.nl   { background: #ffe0cc; color: #7d3000; }
+    .country-btn.nl.active { border-color: #7d3000; }
+    .country-btn.pl   { background: #fce4ec; color: #880e4f; }
+    .country-btn.pl.active { border-color: #880e4f; }
+    .country-btn.ie   { background: #d4edda; color: #155724; }
+    .country-btn.ie.active { border-color: #155724; }
+    .country-btn.it   { background: #d4f0fb; color: #0c4a6e; }
+    .country-btn.it.active { border-color: #0c4a6e; }
+    .country-btn.ca   { background: #fee2e2; color: #991b1b; }
+    .country-btn.ca.active { border-color: #991b1b; }
+    .country-btn.fr   { background: #ede9fe; color: #4c1d95; }
+    .country-btn.fr.active { border-color: #4c1d95; }
+    .country-btn.au   { background: #fef9c3; color: #713f12; }
+    .country-btn.au.active { border-color: #713f12; }
+    .country-btn.nz   { background: #d1fae5; color: #065f46; }
+    .country-btn.nz.active { border-color: #065f46; }
+
+    .table-wrapper { max-width: 1480px; margin: 12px auto 36px; padding: 0 16px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,0.09); }
+    thead tr { background: #1a3a5c; color: #fff; }
+    thead th { padding: 12px 11px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; white-space: normal; border-right: 1px solid #24527a; min-width: 60px; }
+    thead th:last-child { border-right: none; }
+    thead th.narrow { width: 90px; min-width: 80px; }
+    thead th.sortable { cursor: pointer; user-select: none; }
+    thead th.sortable:hover { background: #24527a; }
+    thead th.sort-asc::after  { content: " ▲"; font-size: 10px; opacity: 0.9; }
+    thead th.sort-desc::after { content: " ▼"; font-size: 10px; opacity: 0.9; }
+    tbody tr { border-bottom: 1px solid #e5e7eb; }
+    tbody tr:hover { background: #f0f6ff; }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 10px 11px; vertical-align: top; font-size: 13px; border-right: 1px solid #f0f0f0; }
+    td:last-child { border-right: none; }
+
+    .college-name { font-weight: 700; color: #1a3a5c; }
+    .location { color: #57606a; font-size: 11px; display: block; margin-top: 2px; }
+    .country-cell { white-space: nowrap; }
+    .country-tag { display: inline-block; border-radius: 4px; padding: 3px 9px; font-size: 12px; font-weight: 600; }
+    .country-DE { background: #fff3cd; color: #856404; }
+    .country-NL { background: #ffe0cc; color: #7d3000; }
+    .country-PL { background: #fce4ec; color: #880e4f; }
+    .country-IE { background: #d4edda; color: #155724; }
+    .country-IT { background: #d4f0fb; color: #0c4a6e; }
+    .country-CA { background: #fee2e2; color: #991b1b; }
+    .country-FR { background: #ede9fe; color: #4c1d95; }
+
+    /* Specialisation badges */
+    .spec-tag { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; margin-top: 2px; }
+    .spec-Space          { background: #0f172a; color: #7dd3fc; }
+    .spec-Environmental  { background: #d1fae5; color: #065f46; }
+    .spec-Cybersecurity  { background: #fef3c7; color: #92400e; }
+    .spec-IntlRelations  { background: #e0f2fe; color: #075985; }
+    .spec-Forensic       { background: #fce7f3; color: #9d174d; }
+    .spec-AIGovernance   { background: #ede9fe; color: #4c1d95; }
+    .spec-PolicyMaking   { background: #f0fdf4; color: #14532d; }
+    .spec-General        { background: #f1f5f9; color: #475569; }
+
+    /* Specialisation filter pills */
+    .spec-filters { max-width: 1480px; margin: 8px auto 0; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .spec-btn { padding: 4px 13px; border-radius: 20px; border: 2px solid transparent; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .spec-btn:hover { opacity: 0.85; }
+    .spec-btn.s-all         { background: #475569; color: #fff; }
+    .spec-btn.s-all.active  { border-color: #fff; }
+    .spec-btn.s-space       { background: #0f172a; color: #7dd3fc; }
+    .spec-btn.s-space.active { border-color: #7dd3fc; }
+    .spec-btn.s-env         { background: #d1fae5; color: #065f46; }
+    .spec-btn.s-env.active  { border-color: #065f46; }
+    .spec-btn.s-cyber       { background: #fef3c7; color: #92400e; }
+    .spec-btn.s-cyber.active { border-color: #92400e; }
+    .spec-btn.s-ir          { background: #e0f2fe; color: #075985; }
+    .spec-btn.s-ir.active   { border-color: #075985; }
+    .spec-btn.s-forensic    { background: #fce7f3; color: #9d174d; }
+    .spec-btn.s-forensic.active { border-color: #9d174d; }
+    .spec-btn.s-ai          { background: #ede9fe; color: #4c1d95; }
+    .spec-btn.s-ai.active   { border-color: #4c1d95; }
+    .spec-btn.s-policy      { background: #f0fdf4; color: #14532d; }
+    .spec-btn.s-policy.active { border-color: #14532d; }
+    /* degree prefix pills */
+    .dbtn { padding: 4px 14px; border-radius: 20px; border: 2px solid transparent; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+    .dbtn:hover { opacity: 0.85; }
+    .dbtn.d-all  { background: #1e293b; color: #fff; }
+    .dbtn.d-all.active  { border-color: #fff; }
+    .dbtn.d-bs   { background: #1d4ed8; color: #fff; }
+    .dbtn.d-bs.active   { border-color: #bfdbfe; }
+    .dbtn.d-ba   { background: #0f766e; color: #fff; }
+    .dbtn.d-ba.active   { border-color: #99f6e4; }
+    .dbtn.d-bba  { background: #b45309; color: #fff; }
+    .dbtn.d-bba.active  { border-color: #fde68a; }
+    .dbtn.d-bfa  { background: #be185d; color: #fff; }
+    .dbtn.d-bfa.active  { border-color: #fbcfe8; }
+    .dbtn.d-bas  { background: #065f46; color: #fff; }
+    .dbtn.d-bas.active  { border-color: #6ee7b7; }
+    .country-btn.us   { background: #dbeafe; color: #1e3a8a; }
+    .country-btn.us.active { border-color: #1e3a8a; }
+    .country-US { background: #dbeafe; color: #1e3a8a; }
+
+    .badge-courses { display: flex; flex-wrap: wrap; gap: 4px; min-width: 170px; }
+    .badge { background: #eef2fb; color: #1e4fa8; border-radius: 4px; padding: 2px 7px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+    .date-open  { color: #15803d; font-weight: 700; font-size: 12px; white-space: nowrap; }
+    .date-close { color: #dc2626; font-weight: 700; font-size: 12px; white-space: nowrap; }
+    a.btn-visit  { display: inline-block; padding: 4px 10px; background: #3b82d4; color: #fff; border-radius: 5px; text-decoration: none; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    a.btn-prereq { display: inline-block; padding: 4px 8px; background: #7c5cd8; color: #fff; border-radius: 5px; text-decoration: none; font-size: 10px; font-weight: 600; white-space: nowrap; }
+    td.prereq-cell { width: 90px; min-width: 80px; max-width: 100px; }
+    .sat-score { font-weight: 800; color: #1a3a5c; font-size: 14px; }
+    .sat-na    { font-weight: 700; color: #57606a; font-size: 13px; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+    .sat-supp  { font-size: 12px; color: #92400e; background: #fef3c7; padding: 2px 8px; border-radius: 4px; display: inline-block; border: 1px solid #fcd34d; }
+    .sat-note  { font-size: 10px; color: #57606a; display: block; margin-top: 1px; }
+    .no-results { text-align: center; padding: 40px; color: #57606a; font-size: 14px; display: none; }
+    footer { text-align: center; padding: 16px; font-size: 11px; color: #8b949e; border-top: 1px solid #e5e7eb; background: #fff; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>International Public Universities — Bachelor's Degree Application Guide</h1>
+  <p>Germany &nbsp;&#183;&nbsp; Netherlands &nbsp;&#183;&nbsp; Poland &nbsp;&#183;&nbsp; Ireland &nbsp;&#183;&nbsp; Italy &nbsp;&#183;&nbsp; Canada &nbsp;&#183;&nbsp; France &nbsp;&#183;&nbsp; Australia &nbsp;&#183;&nbsp; New Zealand &nbsp;|&nbsp; 2026–2027 &nbsp;|&nbsp; English-taught Bachelor's &nbsp;|&nbsp; incl. Space, Cyber, AI &amp; more</p>
+</header>
+
+<div class="flag-bar">
+  <span>&#127465;&#127466; Germany</span>
+  <span>&#127475;&#127473; Netherlands</span>
+  <span>&#127477;&#127473; Poland</span>
+  <span>&#127470;&#127466; Ireland</span>
+  <span>&#127470;&#127481; Italy</span>
+  <span>&#127464;&#127462; Canada</span>
+  <span>&#127467;&#127479; France</span>
+  <span>&#127462;&#127482; Australia</span>
+  <span>&#127475;&#127487; New Zealand</span>
+  <span>Fall 2026 Intake</span>
+  <span id="totalCount">85 Universities</span>
+</div>
+
+<!-- Country pill filters -->
+<div class="country-filters">
+  <button class="country-btn all active" onclick="setCountry('')">&#127757; All Countries</button>
+  <button class="country-btn de" onclick="setCountry('Germany')">&#127465;&#127466; Germany</button>
+  <button class="country-btn nl" onclick="setCountry('Netherlands')">&#127475;&#127473; Netherlands</button>
+  <button class="country-btn pl" onclick="setCountry('Poland')">&#127477;&#127473; Poland</button>
+  <button class="country-btn ie" onclick="setCountry('Ireland')">&#127470;&#127466; Ireland</button>
+  <button class="country-btn it" onclick="setCountry('Italy')">&#127470;&#127481; Italy</button>
+  <button class="country-btn ca" onclick="setCountry('Canada')">&#127464;&#127462; Canada</button>
+  <button class="country-btn fr" onclick="setCountry('France')">&#127467;&#127479; France</button>
+  <button class="country-btn au" onclick="setCountry('Australia')">&#127462;&#127482; Australia</button>
+  <button class="country-btn nz" onclick="setCountry('New Zealand')">&#127475;&#127487; New Zealand</button>
+</div>
+
+<!-- Degree prefix filters -->
+<div class="deg-filters" style="max-width:1480px;margin:8px auto 0;padding:0 16px;display:flex;gap:7px;flex-wrap:wrap;">
+  <strong style="font-size:11px;color:#57606a;align-self:center;">Degree:</strong>
+  <button class="dbtn d-all active" onclick="setDegree('')">📜 All Degrees</button>
+  <button class="dbtn d-bs"  onclick="setDegree('BS')">BS – Bachelor of Science</button>
+  <button class="dbtn d-ba"  onclick="setDegree('BA')">BA – Bachelor of Arts</button>
+  <button class="dbtn d-bba" onclick="setDegree('BBA')">BBA – Business Admin</button>
+  <button class="dbtn d-bfa" onclick="setDegree('BFA')">BFA – Fine Arts</button>
+  <button class="dbtn d-bas" onclick="setDegree('BAS')">BAS – Applied Science</button>
+</div>
+
+<!-- Specialisation pill filters -->
+<div class="spec-filters">
+  <button class="spec-btn s-all active" onclick="setSpec('')">&#128218; All Specialisations</button>
+  <button class="spec-btn s-space"   onclick="setSpec('Space')">&#128640; Space</button>
+  <button class="spec-btn s-env"     onclick="setSpec('Environmental')">&#127807; Environmental</button>
+  <button class="spec-btn s-cyber"   onclick="setSpec('Cybersecurity')">&#128274; Cybersecurity</button>
+  <button class="spec-btn s-ir"      onclick="setSpec('IntlRelations')">&#127759; Intl. Relations</button>
+  <button class="spec-btn s-forensic" onclick="setSpec('Forensic')">&#128269; Forensic</button>
+  <button class="spec-btn s-ai"      onclick="setSpec('AIGovernance')">&#129302; AI Governance</button>
+  <button class="spec-btn s-policy"  onclick="setSpec('PolicyMaking')">&#128196; Policy Making</button>
+</div>
+
+<div class="controls">
+  <input type="text" id="searchBox" placeholder="Search by college name or city..." oninput="filterTable()" />
+  <select id="courseFilter" onchange="filterTable()">
+    <option value="">🎓 All Courses</option>
+  </select>
+  <select id="satFilter" onchange="filterTable()">
+    <option value="">All SAT Status</option>
+    <option value="na">SAT Not Required (N/A)</option>
+    <option value="required">SAT Required</option>
+  </select>
+  <div class="stats" id="statsLabel">Showing 61 of 61 universities</div>
+</div>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Country</th>
+        <th>College &amp; Location</th>
+        <th>Website</th>
+        <th>Specialisation</th>
+        <th>Top Courses Offered</th>
+        <th class="sortable" id="th-open"  onclick="sortByCol('open')">App Open Date</th>
+        <th class="sortable" id="th-close" onclick="sortByCol('close')">App Deadline</th>
+        <th class="narrow">Prerequisites (Intl. Students)</th>
+        <th>Min SAT Score</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div class="no-results" id="noResults">No universities match your search criteria.</div>
+</div>
+
+<footer>
+  Data sourced from official university admissions portals. Dates are for 2026–2027 undergraduate intake.<br/>
+  <strong>SAT Policy:</strong> European universities (Germany, Netherlands, Poland, Ireland, Italy) do <strong>not</strong> accept SAT — national qualifications (Abitur, Matura, A-Levels, Leaving Cert, VWO) are the sole criteria.
+  French public universities do not accept SAT; Sciences Po Paris is the sole exception (accepted as alternative to entrance exam; competitive applicants score 1350+).
+  Canadian universities do not require SAT; it is accepted as supplementary evidence only — high school transcripts remain primary.
+  Australian &amp; NZ universities do not require SAT; ATAR or IB is primary; a few (Melbourne, Sydney, UNSW) may consider SAT/ACT as an alternative for international students without ATAR.<br/>
+  Always verify directly with each institution before applying.<br/><br/>
+  <strong style="color:#57606a;">Made with IBM Bob</strong>
+</footer>
+
+<script>
+const colleges = [
+
+  // ── GERMANY (10) ─────────────────────────────────────────────────────────
+  { country:"Germany", flag:"DE", spec:"General", name:"Technical University of Munich (TUM)", location:"Munich, Germany", website:"https://www.tum.de/en/", courses:["Aerospace Engineering","Computer Science","Mechanical Engineering","Electrical Engineering","Civil Engineering","Architecture"], appOpen:"Jan 1, 2026", appClose:"May 31, 2026", prereqUrl:"https://www.tum.de/en/studies/application/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"Ludwig Maximilian University of Munich (LMU)", location:"Munich, Germany", website:"https://www.lmu.de/en/", courses:["Medicine","Law","Physics","Chemistry","Biology","Mathematics"], appOpen:"Jan 15, 2026", appClose:"May 31, 2026", prereqUrl:"https://www.lmu.de/en/study/international-applicants/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"Heidelberg University", location:"Heidelberg, Germany", website:"https://www.uni-heidelberg.de/en/", courses:["Medicine","Law","Physics","Chemistry","Natural Sciences","Mathematics"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-heidelberg.de/en/study/international-applicants/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"Humboldt University of Berlin", location:"Berlin, Germany", website:"https://www.hu-berlin.de/en/", courses:["Physics","Chemistry","Biology","Medicine","Mathematics","Law"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.hu-berlin.de/en/studies/international", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"IntlRelations", name:"Free University of Berlin (FU Berlin)", location:"Berlin, Germany", website:"https://www.fu-berlin.de/en/", courses:["Political Science","International Relations","History","Law","Psychology","Philosophy"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.fu-berlin.de/en/studium/international/index.html", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"RWTH Aachen University", location:"Aachen, Germany", website:"https://www.rwth-aachen.de/go/id/a/", courses:["Mechanical Engineering","Electrical Engineering","Civil Engineering","Computer Science","Chemical Engineering","Physics"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.rwth-aachen.de/go/id/buqd/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"Space", name:"University of Stuttgart", location:"Stuttgart, Germany", website:"https://www.uni-stuttgart.de/en/", courses:["Aerospace Engineering","Mechanical Engineering","Civil Engineering","Electrical Engineering","Computer Science","Architecture"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-stuttgart.de/en/study/applying/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"Environmental", name:"University of Freiburg", location:"Freiburg, Germany", website:"https://www.uni-freiburg.de/en/", courses:["Environmental Sciences","Biology","Geology","Chemistry","Forestry","Geography"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-freiburg.de/en/studies/application", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"University of Tübingen", location:"Tübingen, Germany", website:"https://www.uni-tuebingen.de/en/", courses:["Medicine","Physics","Chemistry","Biology","Mathematics","Law"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-tuebingen.de/en/international/study-in-tuebingen/", minSAT:null, satNote:"Abitur or equivalent required" },
+  { country:"Germany", flag:"DE", spec:"General", name:"University of Göttingen", location:"Göttingen, Germany", website:"https://www.uni-goettingen.de/en/", courses:["Physics","Chemistry","Biology","Mathematics","Agriculture","Geology"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-goettingen.de/en/international-students/526689.html", minSAT:null, satNote:"Abitur or equivalent required" },
+
+  // ── NETHERLANDS (10) ─────────────────────────────────────────────────────
+  { country:"Netherlands", flag:"NL", spec:"IntlRelations", name:"University of Amsterdam (UvA)", location:"Amsterdam, Netherlands", website:"https://www.uva.nl/en/", courses:["International Relations","Political Science","Law","Economics","Data Science","Humanities"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://www.uva.nl/en/education/bachelor-s/admission-and-application/", minSAT:null, satNote:"No SAT required; national diploma accepted" },
+  { country:"Netherlands", flag:"NL", spec:"Space", name:"Delft University of Technology (TU Delft)", location:"Delft, Netherlands", website:"https://www.tudelft.nl/en/", courses:["Aerospace Engineering","Civil Engineering","Computer Science","Electrical Engineering","Industrial Design Engineering","Mechanical Engineering"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://www.tudelft.nl/en/education/admission-and-application/bsc-international-diploma/", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"IntlRelations", name:"Leiden University", location:"Leiden, Netherlands", website:"https://www.universiteitleiden.nl/en/", courses:["International Relations","Law","Governance","Physics","Chemistry","Astronomy"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.universiteitleiden.nl/en/education/study-at-leiden-university/international-students", minSAT:null, satNote:"No SAT required; national diploma accepted" },
+  { country:"Netherlands", flag:"NL", spec:"AIGovernance", name:"Eindhoven University of Technology (TU/e)", location:"Eindhoven, Netherlands", website:"https://www.tue.nl/en/", courses:["AI Systems","Computer Science","Electrical Engineering","Industrial Design","Mechanical Engineering","Data Science"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.tue.nl/en/education/bachelor-college/admission-and-application/", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"Environmental", name:"Utrecht University", location:"Utrecht, Netherlands", website:"https://www.uu.nl/en/", courses:["Earth Sciences","Environmental Sciences","Physics","Chemistry","Biology","Law"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://www.uu.nl/en/education/bachelor-programmes/applying-for-admission", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"PolicyMaking", name:"Erasmus University Rotterdam", location:"Rotterdam, Netherlands", website:"https://www.eur.nl/en/", courses:["Economics","Business Administration","Law","Social Sciences","Psychology","Governance"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://www.eur.nl/en/admissions/", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"General", name:"University of Groningen", location:"Groningen, Netherlands", website:"https://www.rug.nl/", courses:["Medicine","Law","Economics","Physics","Chemistry","Psychology"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.rug.nl/education/bachelor/international-students/", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"Forensic", name:"Maastricht University", location:"Maastricht, Netherlands", website:"https://www.maastrichtuniversity.nl/", courses:["Forensic Psychology","Law","Health Sciences","Medicine","Business Administration","Data Science"], appOpen:"Oct 1, 2025", appClose:"Apr 15, 2026", prereqUrl:"https://www.maastrichtuniversity.nl/education/bachelor/applying", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"General", name:"Radboud University", location:"Nijmegen, Netherlands", website:"https://www.ru.nl/en/", courses:["Medicine","Law","Physics","Chemistry","Psychology","Management"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.ru.nl/en/education/bachelors/applying/", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+  { country:"Netherlands", flag:"NL", spec:"General", name:"Vrije Universiteit Amsterdam (VU)", location:"Amsterdam, Netherlands", website:"https://vu.nl/en/", courses:["Computer Science","Business Administration","Law","Psychology","Medicine","Physics"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://vu.nl/en/education/bachelor/admission-and-application", minSAT:null, satNote:"No SAT required; VWO diploma or equivalent" },
+
+  // ── POLAND (10) ──────────────────────────────────────────────────────────
+  { country:"Poland", flag:"PL", spec:"IntlRelations", name:"University of Warsaw", location:"Warsaw, Poland", website:"https://en.uw.edu.pl/", courses:["International Relations","Political Science","Law","Economics","Sociology","Humanities"], appOpen:"Apr 1, 2026", appClose:"Jul 14, 2026", prereqUrl:"https://en.uw.edu.pl/admissions-2025/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Jagiellonian University", location:"Kraków, Poland", website:"https://en.uj.edu.pl/", courses:["Medicine","Law","Philosophy","Physics","Chemistry","Biology"], appOpen:"Apr 1, 2026", appClose:"Jul 11, 2026", prereqUrl:"https://admission.uj.edu.pl/en_GB/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"Cybersecurity", name:"Warsaw University of Technology", location:"Warsaw, Poland", website:"https://www.pw.edu.pl/engpw/", courses:["Computer Science","Electrical Engineering","Civil Engineering","Mechanical Engineering","Electronics","Cybersecurity"], appOpen:"Apr 1, 2026", appClose:"Jul 14, 2026", prereqUrl:"https://www.pw.edu.pl/engpw/Applicants", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"AGH University of Krakow", location:"Kraków, Poland", website:"https://www.agh.edu.pl/en/", courses:["Mechanical Engineering","Civil Engineering","Electrical Engineering","Computer Science","Mining Engineering","Metallurgy"], appOpen:"Apr 1, 2026", appClose:"Jul 9, 2026", prereqUrl:"https://www.agh.edu.pl/en/applicants/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Wrocław University of Science and Technology", location:"Wrocław, Poland", website:"https://pwr.edu.pl/en/", courses:["Computer Science","Electrical Engineering","Civil Engineering","Mechanical Engineering","Architecture","Management"], appOpen:"Apr 1, 2026", appClose:"Jul 10, 2026", prereqUrl:"https://rekrutacja.pwr.edu.pl/en/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Poznań University of Technology", location:"Poznań, Poland", website:"https://www.put.poznan.pl/en", courses:["Mechanical Engineering","Civil Engineering","Electrical Engineering","Computer Science","Management","Architecture"], appOpen:"Apr 1, 2026", appClose:"Jul 12, 2026", prereqUrl:"https://www.put.poznan.pl/en/applicants/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"University of Wrocław", location:"Wrocław, Poland", website:"https://uni.wroc.pl/en/", courses:["Law","Philosophy","Mathematics","Physics","Chemistry","Humanities"], appOpen:"Apr 1, 2026", appClose:"Jul 10, 2026", prereqUrl:"https://uni.wroc.pl/en/admission/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Gdańsk University of Technology", location:"Gdańsk, Poland", website:"https://pg.edu.pl/en/", courses:["Civil Engineering","Electrical Engineering","Computer Science","Mechanical Engineering","Electronics","Management"], appOpen:"Apr 1, 2026", appClose:"Jul 12, 2026", prereqUrl:"https://pg.edu.pl/en/admission", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Adam Mickiewicz University", location:"Poznań, Poland", website:"https://amu.edu.pl/en/", courses:["Law","Humanities","Social Sciences","Physics","Chemistry","Education"], appOpen:"Apr 1, 2026", appClose:"Jul 12, 2026", prereqUrl:"https://amu.edu.pl/en/applicants/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+  { country:"Poland", flag:"PL", spec:"General", name:"Łódź University of Technology", location:"Łódź, Poland", website:"https://p.lodz.pl/en", courses:["Biotechnology","Computer Science","Electrical Engineering","Management","Textile Engineering","Chemistry"], appOpen:"Apr 1, 2026", appClose:"Jul 10, 2026", prereqUrl:"https://p.lodz.pl/en/candidates/", minSAT:null, satNote:"No SAT; Matura exam result required" },
+
+  // ── IRELAND (10) ─────────────────────────────────────────────────────────
+  { country:"Ireland", flag:"IE", spec:"General", name:"Trinity College Dublin (TCD)", location:"Dublin, Ireland", website:"https://www.tcd.ie/", courses:["Medicine","Law","Engineering","Computer Science","Business Administration","Humanities"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.tcd.ie/study/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"IntlRelations", name:"University College Dublin (UCD)", location:"Dublin, Ireland", website:"https://www.ucd.ie/", courses:["International Relations","Business Administration","Engineering","Architecture","Computer Science","Social Sciences"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.ucd.ie/global/study-at-ucd/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"Environmental", name:"University College Cork (UCC)", location:"Cork, Ireland", website:"https://www.ucc.ie/en/", courses:["Environmental Science","Engineering","Medicine","Food Science","Marine Biology","Law"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.ucc.ie/en/study/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"General", name:"University of Galway", location:"Galway, Ireland", website:"https://www.universityofgalway.ie/", courses:["Engineering","Medicine","Law","Science","Business Administration","Arts"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.universityofgalway.ie/study-at-galway/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"Cybersecurity", name:"Dublin City University (DCU)", location:"Dublin, Ireland", website:"https://www.dcu.ie/", courses:["Computing","Engineering","Business Administration","Data Analytics","Communications","Cybersecurity"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.dcu.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"General", name:"University of Limerick (UL)", location:"Limerick, Ireland", website:"https://www.ul.ie/", courses:["Engineering","Business Administration","Arts","Science","Education","Health Sciences"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.ul.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"PolicyMaking", name:"Maynooth University", location:"Maynooth, Co. Kildare, Ireland", website:"https://www.maynoothuniversity.ie/", courses:["Politics & Policy","Law","Sociology","Economics","Theology","Philosophy"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.maynoothuniversity.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"General", name:"Technological University Dublin (TU Dublin)", location:"Dublin, Ireland", website:"https://www.tudublin.ie/", courses:["Engineering","Computing","Business Administration","Architecture","Health Sciences","Arts"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.tudublin.ie/study/international-students/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"Space", name:"Dublin Institute for Advanced Studies (DIAS)", location:"Dublin, Ireland", website:"https://www.dias.ie/", courses:["Astrophysics","Geophysics","Space Physics","Theoretical Physics","Mathematics","Physics"], appOpen:"Nov 1, 2025", appClose:"Mar 1, 2026", prereqUrl:"https://www.dias.ie/education/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+  { country:"Ireland", flag:"IE", spec:"General", name:"Munster Technological University (MTU)", location:"Cork, Ireland", website:"https://www.mtu.ie/", courses:["Engineering","Computing","Business Administration","Science","Arts","Tourism & Hospitality"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.mtu.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+
+  // ── SPECIALISED – SPACE (via educations.com) ──────────────────────────────
+  { country:"Netherlands", flag:"NL", spec:"Space", name:"Leiden University – Astronomy BSc", location:"Leiden, Netherlands", website:"https://www.universiteitleiden.nl/en/science/astronomy", courses:["Astronomy","Astrophysics","Space Physics","Mathematics","Computational Science","Cosmology"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.universiteitleiden.nl/en/education/study-at-leiden-university/international-students", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Germany", flag:"DE", spec:"Space", name:"University of Würzburg – Space Science BSc", location:"Würzburg, Germany", website:"https://www.uni-wuerzburg.de/en/", courses:["Space Science","Satellite Systems","Astrophysics","Physics","Remote Sensing","Robotics"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-wuerzburg.de/en/international/", minSAT:null, satNote:"Abitur or equivalent required" },
+
+  // ── SPECIALISED – ENVIRONMENTAL (via educations.com) ─────────────────────
+  { country:"Netherlands", flag:"NL", spec:"Environmental", name:"Wageningen University", location:"Wageningen, Netherlands", website:"https://www.wur.nl/en.htm", courses:["Environmental Sciences","Sustainability","Ecology","Food Technology","Climate Change","Soil & Water"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.wur.nl/en/education/bachelor/international-students.htm", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Ireland", flag:"IE", spec:"Environmental", name:"University of Galway – Earth & Ocean Sci.", location:"Galway, Ireland", website:"https://www.universityofgalway.ie/courses/science-courses/earth-and-ocean-sciences/", courses:["Earth Sciences","Ocean Sciences","Environmental Studies","Climate Science","Geology","Marine Biology"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.universityofgalway.ie/study-at-galway/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+
+  // ── SPECIALISED – CYBERSECURITY (via educations.com) ─────────────────────
+  { country:"Netherlands", flag:"NL", spec:"Cybersecurity", name:"The Hague University of Applied Sciences", location:"The Hague, Netherlands", website:"https://www.thehagueuniversity.com/", courses:["Cybersecurity","Network Security","Digital Forensics","IT Infrastructure","Ethical Hacking","Cloud Security"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.thehagueuniversity.com/study-at-thuas/", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Ireland", flag:"IE", spec:"Cybersecurity", name:"Munster Technological University – Cyber BSc", location:"Cork, Ireland", website:"https://www.mtu.ie/courses/bachelor-of-science-in-cybersecurity/", courses:["Cybersecurity","Network Security","Digital Forensics","Ethical Hacking","Cloud Security","Cryptography"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.mtu.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+
+  // ── SPECIALISED – INTERNATIONAL RELATIONS (via educations.com) ───────────
+  { country:"Netherlands", flag:"NL", spec:"IntlRelations", name:"The Hague University – International Studies", location:"The Hague, Netherlands", website:"https://www.thehagueuniversity.com/programmes/bachelors/detail/61/international-studies", courses:["International Relations","Diplomacy","Global Governance","EU Law","Conflict Resolution","Human Rights"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.thehagueuniversity.com/study-at-thuas/", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Ireland", flag:"IE", spec:"IntlRelations", name:"Dublin City University – Intl. Relations", location:"Dublin, Ireland", website:"https://www.dcu.ie/courses/undergraduate/law-and-government/international-relations", courses:["International Relations","Global Politics","EU Studies","Diplomacy","Security Studies","Human Rights"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.dcu.ie/international/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+
+  // ── SPECIALISED – FORENSIC (via educations.com) ───────────────────────────
+  { country:"Netherlands", flag:"NL", spec:"Forensic", name:"University of Amsterdam – Forensic Science", location:"Amsterdam, Netherlands", website:"https://www.uva.nl/en/programmes/bachelors/forensic-science/forensic-science.html", courses:["Forensic Science","Criminal Investigation","DNA Analysis","Digital Forensics","Criminalistics","Evidence Law"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://www.uva.nl/en/education/bachelor-s/admission-and-application/", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Germany", flag:"DE", spec:"Forensic", name:"University of Applied Sciences Bonn-Rhein-Sieg", location:"Sankt Augustin, Germany", website:"https://www.h-brs.de/en/", courses:["Forensic Science","Crime Scene Investigation","Criminalistics","Digital Evidence","Laboratory Analysis","Security Management"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.h-brs.de/en/international/", minSAT:null, satNote:"Abitur or equivalent required" },
+
+  // ── SPECIALISED – AI GOVERNANCE (via educations.com) ─────────────────────
+  { country:"Netherlands", flag:"NL", spec:"AIGovernance", name:"Vrije Universiteit – AI, Ethics & Society", location:"Amsterdam, Netherlands", website:"https://vu.nl/en/education/bachelor/artificial-intelligence", courses:["AI Ethics","Machine Learning","Data Science","AI Policy","Governance","Computational Thinking"], appOpen:"Oct 1, 2025", appClose:"Apr 1, 2026", prereqUrl:"https://vu.nl/en/education/bachelor/admission-and-application", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Germany", flag:"DE", spec:"AIGovernance", name:"University of Bremen – Digital Sciences", location:"Bremen, Germany", website:"https://www.uni-bremen.de/en/", courses:["AI Governance","Digital Policy","Data Ethics","Computer Science","Information Systems","Law & Technology"], appOpen:"Jan 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.uni-bremen.de/en/international-office/", minSAT:null, satNote:"Abitur or equivalent required" },
+
+  // ── SPECIALISED – POLICY MAKING (via educations.com) ─────────────────────
+  { country:"Netherlands", flag:"NL", spec:"PolicyMaking", name:"Leiden University – Political Science", location:"The Hague, Netherlands", website:"https://www.universiteitleiden.nl/en/social-behavioural-sciences/political-science", courses:["Public Policy","Political Science","Governance","EU Policy","Comparative Politics","Public Administration"], appOpen:"Oct 1, 2025", appClose:"May 1, 2026", prereqUrl:"https://www.universiteitleiden.nl/en/education/study-at-leiden-university/international-students", minSAT:null, satNote:"No SAT; VWO diploma or equivalent" },
+  { country:"Ireland", flag:"IE", spec:"PolicyMaking", name:"University College Dublin – Politics & Policy", location:"Dublin, Ireland", website:"https://www.ucd.ie/courses/bachelor-of-arts-political-science-sociology-and-social-policy", courses:["Public Policy","Political Science","Governance","Social Policy","Human Rights","European Studies"], appOpen:"Nov 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.ucd.ie/global/study-at-ucd/", minSAT:null, satNote:"No SAT; Leaving Cert / A-Levels required" },
+
+
+  // ── ITALY (8) ────────────────────────────────────────────────────────────
+  { country:"Italy", flag:"IT", spec:"General", name:"University of Bologna (Unibo)", location:"Bologna, Italy", website:"https://www.unibo.it/en/", courses:["Law","Computer Science","Political Science","Engineering","Economics","Business Administration"], appOpen:"Jan 15, 2026", appClose:"Jun 30, 2026", prereqUrl:"https://www.unibo.it/en/teaching/enrolment-transfer-and-graduation/how-to-enrol/international-students-with-foreign-qualifications", minSAT:null, satNote:"No SAT; Italian Maturità or equiv. required" },
+  { country:"Italy", flag:"IT", spec:"General", name:"Sapienza University of Rome", location:"Rome, Italy", website:"https://www.uniroma1.it/en/", courses:["Architecture","Medicine","Humanities","Engineering","Law","Physics"], appOpen:"Feb 1, 2026", appClose:"Jul 31, 2026", prereqUrl:"https://www.uniroma1.it/en/pagina/international-students", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+  { country:"Italy", flag:"IT", spec:"General", name:"University of Milan (UniMi)", location:"Milan, Italy", website:"https://www.unimi.it/en/", courses:["Computer Science","Law","Physics","Political Science","Biology","Economics"], appOpen:"Feb 1, 2026", appClose:"Jul 15, 2026", prereqUrl:"https://www.unimi.it/en/international/coming-unimi/degree-students", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+  { country:"Italy", flag:"IT", spec:"General", name:"Politecnico di Milano", location:"Milan, Italy", website:"https://www.polimi.it/en/", courses:["Architecture","Civil Engineering","Industrial Engineering","Information Engineering","Design","Mathematical Engineering"], appOpen:"Jan 1, 2026", appClose:"Jun 1, 2026", prereqUrl:"https://www.polimi.it/en/programmes/bachelor-of-science-programme/how-to-apply", minSAT:null, satNote:"No SAT; entry test required for some programmes" },
+  { country:"Italy", flag:"IT", spec:"Environmental", name:"University of Padova (UniPD)", location:"Padua, Italy", website:"https://www.unipd.it/en/", courses:["Environmental Sciences","Natural Sciences","Agriculture","Industrial Chemistry","Bioinformatics","Psychology"], appOpen:"Feb 1, 2026", appClose:"Jul 31, 2026", prereqUrl:"https://www.unipd.it/en/international-students-1", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+  { country:"Italy", flag:"IT", spec:"IntlRelations", name:"University of Turin (UniTO)", location:"Turin, Italy", website:"https://en.unito.it/", courses:["International Relations","Law","Computer Science","Political Science","Physics","Economics"], appOpen:"Feb 1, 2026", appClose:"Jul 31, 2026", prereqUrl:"https://en.unito.it/studying-unito/foreign-students", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+  { country:"Italy", flag:"IT", spec:"Space", name:"University of Trento", location:"Trento, Italy", website:"https://www.unitn.it/en/", courses:["Physics","Mathematics","Computer Science","Sociology","Industrial Engineering","International Studies"], appOpen:"Feb 1, 2026", appClose:"Jun 30, 2026", prereqUrl:"https://www.unitn.it/en/ateneo/1763/international-students", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+  { country:"Italy", flag:"IT", spec:"Forensic", name:"University of Florence (UniFI)", location:"Florence, Italy", website:"https://www.unifi.it/changelang-eng.html", courses:["Forensic Science","Law","Political Science","Biology","Humanities","Agriculture & Forestry"], appOpen:"Feb 1, 2026", appClose:"Jul 31, 2026", prereqUrl:"https://www.unifi.it/vp-7513-international-students.html", minSAT:null, satNote:"No SAT; Maturità or equivalent required" },
+
+  // ── CANADA (8) ───────────────────────────────────────────────────────────
+  { country:"Canada", flag:"CA", spec:"General", name:"University of Toronto", location:"Toronto, ON, Canada", website:"https://www.utoronto.ca/", courses:["Computer Science","Economics","Engineering","Political Science","Life Sciences","English Literature"], appOpen:"Sep 1, 2025", appClose:"Jan 15, 2026", prereqUrl:"https://future.utoronto.ca/apply/requirements/", minSAT:null, satNote:"SAT not required; high school transcript (OSSD or equiv.) is primary criterion. SAT may supplement if submitted." },
+  { country:"Canada", flag:"CA", spec:"General", name:"University of British Columbia (UBC)", location:"Vancouver, BC, Canada", website:"https://www.ubc.ca/", courses:["Computer Science","International Relations","Engineering","Psychology","Commerce","Kinesiology"], appOpen:"Sep 1, 2025", appClose:"Jan 15, 2026", prereqUrl:"https://you.ubc.ca/applying-ubc/", minSAT:null, satNote:"SAT not required; BC provincial transcript is primary. SAT/ACT may be submitted as supplementary." },
+  { country:"Canada", flag:"CA", spec:"General", name:"McGill University", location:"Montréal, QC, Canada", website:"https://www.mcgill.ca/", courses:["Medicine","Law","Engineering","Political Science","Computer Science","Architecture"], appOpen:"Sep 1, 2025", appClose:"Jan 15, 2026", prereqUrl:"https://www.mcgill.ca/undergraduate-admissions/how-apply/", minSAT:null, satNote:"SAT not required; CEGEP or provincial transcript is primary. SAT accepted as supplementary for international applicants." },
+  { country:"Canada", flag:"CA", spec:"Environmental", name:"University of Waterloo", location:"Waterloo, ON, Canada", website:"https://uwaterloo.ca/", courses:["Environmental Engineering","Computer Science","Nanotechnology Engineering","Accounting","Kinesiology","Geomatics"], appOpen:"Sep 1, 2025", appClose:"Mar 1, 2026", prereqUrl:"https://uwaterloo.ca/future-students/programs/", minSAT:null, satNote:"SAT not required; OSSD or equivalent is primary. SAT may be submitted as supplementary." },
+  { country:"Canada", flag:"CA", spec:"AIGovernance", name:"University of Alberta", location:"Edmonton, AB, Canada", website:"https://www.ualberta.ca/", courses:["Computing Science","AI & Machine Learning","Political Science","Engineering","Sociology","Biological Sciences"], appOpen:"Sep 1, 2025", appClose:"Mar 1, 2026", prereqUrl:"https://www.ualberta.ca/admissions/undergraduate/", minSAT:null, satNote:"SAT not required; Alberta high school diploma or equiv. is primary. SAT accepted as supplementary." },
+  { country:"Canada", flag:"CA", spec:"General", name:"Queen's University", location:"Kingston, ON, Canada", website:"https://www.queensu.ca/", courses:["Engineering","Commerce","Political Studies","Life Sciences","History","Computing"], appOpen:"Oct 1, 2025", appClose:"Feb 1, 2026", prereqUrl:"https://www.queensu.ca/admission/", minSAT:null, satNote:"SAT not required; OSSD or provincial transcript is primary. SAT accepted as supplementary." },
+  { country:"Canada", flag:"CA", spec:"Cybersecurity", name:"Carleton University", location:"Ottawa, ON, Canada", website:"https://carleton.ca/", courses:["Cybersecurity","Computer Science","Engineering","International Affairs","Cognitive Science","Geomatics"], appOpen:"Oct 1, 2025", appClose:"Mar 1, 2026", prereqUrl:"https://admissions.carleton.ca/apply/", minSAT:null, satNote:"SAT not required; OSSD or provincial transcript is primary. SAT accepted as supplementary." },
+  { country:"Canada", flag:"CA", spec:"General", name:"Simon Fraser University (SFU)", location:"Burnaby, BC, Canada", website:"https://www.sfu.ca/", courses:["Computer Science","Business Administration","Engineering Science","Criminology","Health Sciences","Communication"], appOpen:"Oct 1, 2025", appClose:"Mar 31, 2026", prereqUrl:"https://www.sfu.ca/admission/undergraduate.html", minSAT:null, satNote:"SAT not required; BC provincial transcript or equiv. is primary. SAT accepted as supplementary." },
+
+  // ── FRANCE (8) ───────────────────────────────────────────────────────────
+  { country:"France", flag:"FR", spec:"General", name:"Sorbonne University", location:"Paris, France", website:"https://www.sorbonne-universite.fr/en", courses:["Literature","Physics","History","Biology","Philosophy","Mathematics"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.sorbonne-universite.fr/en/education/international-students", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"General", name:"University of Paris (Université Paris Cité)", location:"Paris, France", website:"https://u-paris.fr/en/", courses:["Medicine","Pharmacy","Computer Science","Law","Biology","Social Sciences"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://u-paris.fr/en/international-students/", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"General", name:"Sciences Po Paris", location:"Paris, France", website:"https://www.sciencespo.fr/en/", courses:["Political Science","International Affairs","Law","Economics","Sociology","European Studies"], appOpen:"Nov 1, 2025", appClose:"Jan 12, 2026", prereqUrl:"https://www.sciencespo.fr/admissions/en/bachelor/", minSAT:null, satNote:"SAT accepted as alternative to national entrance exam for intl. students. Competitive applicants typically score 1350+." },
+  { country:"France", flag:"FR", spec:"IntlRelations", name:"University of Strasbourg (Unistra)", location:"Strasbourg, France", website:"https://www.unistra.fr/en/", courses:["International Relations","European Law","Chemistry","Political Science","Biology","German Studies"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.unistra.fr/en/studies/international-students", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"Environmental", name:"Aix-Marseille University (AMU)", location:"Marseille, France", website:"https://www.univ-amu.fr/en", courses:["Environmental Sciences","Marine Sciences","Law","Physics","Economics","Geosciences"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.univ-amu.fr/en/public/international-students", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"Space", name:"Université Paul Sabatier – Toulouse III", location:"Toulouse, France", website:"https://www.univ-tlse3.fr/", courses:["Aerospace Engineering","Space Science","Physics","Mathematics","Electronics","Computer Science"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.univ-tlse3.fr/international", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"AIGovernance", name:"University of Grenoble Alpes (UGA)", location:"Grenoble, France", website:"https://www.univ-grenoble-alpes.fr/en/", courses:["Artificial Intelligence","Computer Science","Data Science","Physics","Law & Governance","Mathematics"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.univ-grenoble-alpes.fr/en/international/international-students/", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+  { country:"France", flag:"FR", spec:"Cybersecurity", name:"University of Rennes (UR1)", location:"Rennes, France", website:"https://www.univ-rennes.fr/en", courses:["Cybersecurity","Computer Science","Mathematics","Electronics","Law","Physics"], appOpen:"Jan 19, 2026", appClose:"Mar 20, 2026", prereqUrl:"https://www.univ-rennes.fr/en/come-study-rennes", minSAT:null, satNote:"SAT not accepted; Baccalauréat or equivalent required. Apply via Études en France portal." },
+
+  // ── AUSTRALIA (8) ────────────────────────────────────────────────────────
+  { country:"Australia", flag:"AU", spec:"General", name:"University of Melbourne", location:"Melbourne, VIC, Australia", website:"https://www.unimelb.edu.au/", courses:["Computer Science","Engineering","Arts","Biomedicine","Commerce","Science"], appOpen:"Mar 1, 2026", appClose:"Oct 31, 2026", prereqUrl:"https://study.unimelb.edu.au/how-to-apply/undergraduate/international", minSAT:null, satNote:"SAT not required; ATAR or IB score is primary. SAT/ACT considered as supplementary for intl. students without ATAR." },
+  { country:"Australia", flag:"AU", spec:"General", name:"Australian National University (ANU)", location:"Canberra, ACT, Australia", website:"https://www.anu.edu.au/", courses:["Computer Science","Politics & International Relations","Physics","Economics","Engineering","Sociology"], appOpen:"Mar 1, 2026", appClose:"Dec 15, 2026", prereqUrl:"https://www.anu.edu.au/study/apply/how-to-apply/international-students", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT not listed as an accepted alternative on official admissions page." },
+  { country:"Australia", flag:"AU", spec:"General", name:"University of Sydney", location:"Sydney, NSW, Australia", website:"https://www.sydney.edu.au/", courses:["Computer Science","Law","Engineering","Economics","Nursing","Medical Science"], appOpen:"Mar 1, 2026", appClose:"Oct 31, 2026", prereqUrl:"https://www.sydney.edu.au/study/how-to-apply/undergraduate/international-students.html", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT/ACT accepted as an alternative qualification for intl. students." },
+  { country:"Australia", flag:"AU", spec:"General", name:"University of Queensland (UQ)", location:"Brisbane, QLD, Australia", website:"https://www.uq.edu.au/", courses:["Engineering","Business Management","Biomedical Science","Computer Science","Communication","Environmental Science"], appOpen:"Mar 1, 2026", appClose:"Nov 30, 2026", prereqUrl:"https://study.uq.edu.au/admissions/undergraduate/how-apply/international", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"Australia", flag:"AU", spec:"Space", name:"University of Adelaide", location:"Adelaide, SA, Australia", website:"https://www.adelaide.edu.au/", courses:["Aerospace Engineering","Space Science","Mechanical Engineering","Computer Science","Physics","Economics"], appOpen:"Mar 1, 2026", appClose:"Dec 1, 2026", prereqUrl:"https://www.adelaide.edu.au/study/undergraduate/apply/", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"Australia", flag:"AU", spec:"Cybersecurity", name:"University of New South Wales (UNSW)", location:"Sydney, NSW, Australia", website:"https://www.unsw.edu.au/", courses:["Cybersecurity","Computer Science","Engineering","Commerce","Actuarial Studies","Data Science & Decisions"], appOpen:"Mar 1, 2026", appClose:"Oct 31, 2026", prereqUrl:"https://www.unsw.edu.au/study/undergraduate/apply", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT/ACT may be considered as supplementary for intl. students." },
+  { country:"Australia", flag:"AU", spec:"Environmental", name:"Monash University", location:"Melbourne, VIC, Australia", website:"https://www.monash.edu/", courses:["Environmental Science","Biomedical Science","Engineering","Computer Science","Arts","Nursing"], appOpen:"Mar 1, 2026", appClose:"Nov 30, 2026", prereqUrl:"https://www.monash.edu/study/how-to-apply/undergraduate/international", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"Australia", flag:"AU", spec:"General", name:"University of Western Australia (UWA)", location:"Perth, WA, Australia", website:"https://www.uwa.edu.au/", courses:["Computer Science","Engineering","Arts","Biomedical Science","Commerce","Psychology"], appOpen:"Mar 1, 2026", appClose:"Nov 30, 2026", prereqUrl:"https://www.uwa.edu.au/study/how-to-apply/international-students/undergraduate", minSAT:null, satNote:"SAT not required; ATAR or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+
+  // ── NEW ZEALAND (7) ──────────────────────────────────────────────────────
+  { country:"New Zealand", flag:"NZ", spec:"General", name:"University of Auckland", location:"Auckland, New Zealand", website:"https://www.auckland.ac.nz/", courses:["Arts","Commerce","Engineering","Science","Laws","Nursing","Medicine & Surgery"], appOpen:"Aug 1, 2025", appClose:"Dec 1, 2025", prereqUrl:"https://www.auckland.ac.nz/en/study/applications-and-admissions/how-to-apply/undergraduate-application-closing-dates.html", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT may be submitted as supplementary evidence of academic readiness." },
+  { country:"New Zealand", flag:"NZ", spec:"Environmental", name:"University of Otago", location:"Dunedin, New Zealand", website:"https://www.otago.ac.nz/", courses:["Marine Science","Environmental Science","Biomedical Science","Computer Science","Commerce","Dentistry"], appOpen:"Aug 1, 2025", appClose:"Dec 1, 2025", prereqUrl:"https://www.otago.ac.nz/study/apply/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"New Zealand", flag:"NZ", spec:"General", name:"Victoria University of Wellington (VUW)", location:"Wellington, New Zealand", website:"https://www.wgtn.ac.nz/", courses:["Computer Science","Law","Public Policy","Architecture","Engineering","Criminology"], appOpen:"Aug 1, 2025", appClose:"Dec 1, 2025", prereqUrl:"https://www.wgtn.ac.nz/international/applying", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"New Zealand", flag:"NZ", spec:"General", name:"University of Canterbury", location:"Christchurch, New Zealand", website:"https://www.canterbury.ac.nz/", courses:["Mechanical Engineering","Computer Science","Arts","Forestry","Science","Commerce"], appOpen:"Aug 1, 2025", appClose:"Dec 1, 2025", prereqUrl:"https://www.canterbury.ac.nz/study/apply/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"New Zealand", flag:"NZ", spec:"AIGovernance", name:"University of Waikato", location:"Hamilton, New Zealand", website:"https://www.waikato.ac.nz/", courses:["Computer Science","AI & Data Science","Law","Engineering","Management","Biological Sciences"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.waikato.ac.nz/study/apply/international/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"New Zealand", flag:"NZ", spec:"General", name:"Massey University", location:"Palmerston North, New Zealand", website:"https://www.massey.ac.nz/", courses:["Aviation","Engineering","Computer Science","Communications","Food Technology","Nursing"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.massey.ac.nz/study/apply/international-students/", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." },
+  { country:"New Zealand", flag:"NZ", spec:"Cybersecurity", name:"Auckland University of Technology (AUT)", location:"Auckland, New Zealand", website:"https://www.aut.ac.nz/", courses:["Cybersecurity","Computer Science","Network Engineering","Data Science","Software Engineering","Business Information Systems"], appOpen:"Aug 1, 2025", appClose:"Nov 30, 2025", prereqUrl:"https://www.aut.ac.nz/study-at-aut/apply/international-students", minSAT:null, satNote:"SAT not required; NCEA Level 3 or IB is primary. SAT not listed as accepted alternative on official admissions page." }
+];
+
+function parseDate(str) { return new Date(str); }
+
+let currentSort = { col: null, dir: 'asc' };
+let activeCountry = '';
+let activeSpec = '';
+let activeData = [];
+let activeDegree = '';
+
+function setCountry(country) {
+  activeCountry = country;
+  // Update pill button states
+  document.querySelectorAll('.country-btn').forEach(btn => btn.classList.remove('active'));
+  if (!country) {
+    document.querySelector('.country-btn.all').classList.add('active');
+  } else {
+    const map = { Germany:'de', Netherlands:'nl', Poland:'pl', Ireland:'ie', Italy:'it', Canada:'ca', France:'fr', Australia:'au', 'New Zealand':'nz' };
+    document.querySelector('.country-btn.' + map[country]).classList.add('active');
+  }
+  filterTable();
+}
+
+function setSpec(spec) {
+  activeSpec = spec;
+  document.querySelectorAll('.spec-btn').forEach(btn => btn.classList.remove('active'));
+  if (!spec) {
+    document.querySelector('.spec-btn.s-all').classList.add('active');
+  } else {
+    const map = { Space:'s-space', Environmental:'s-env', Cybersecurity:'s-cyber', IntlRelations:'s-ir', Forensic:'s-forensic', AIGovernance:'s-ai', PolicyMaking:'s-policy' };
+    document.querySelector('.spec-btn.' + map[spec]).classList.add('active');
+  }
+  filterTable();
+}
+
+const specLabels = { Space:'🚀 Space', Environmental:'🌿 Environmental', Cybersecurity:'🔐 Cybersecurity', IntlRelations:'🌐 Intl. Relations', Forensic:'🔍 Forensic', AIGovernance:'🤖 AI Governance', PolicyMaking:'📄 Policy Making', General:'📚 General' };
+
+function buildRow(c, i) {
+  const badges = c.courses.map(x => `<span class="badge">${x}</span>`).join('');
+  let satCell;
+  if (c.minSAT) {
+    satCell = `<span class="sat-score">${c.minSAT}</span><span class="sat-note">${c.satNote}</span>`;
+  } else if (c.satNote && c.satNote.toLowerCase().includes('supplementary')) {
+    satCell = `<span class="sat-supp"><strong>Supplementary</strong></span><span class="sat-note">${c.satNote}</span>`;
+  } else {
+    satCell = `<span class="sat-na">N/A</span><span class="sat-note">${c.satNote}</span>`;
+  }
+  const specLabel = specLabels[c.spec] || c.spec;
+  return `<tr>
+    <td style="color:#57606a;font-weight:700;text-align:center;">${i+1}</td>
+    <td class="country-cell"><span class="country-tag country-${c.flag}">${c.country}</span></td>
+    <td>
+      <div class="college-name">${c.name}</div>
+      <span class="location">&#128205; ${c.location}</span>
+    </td>
+    <td><a class="btn-visit" href="${c.website}" target="_blank" rel="noopener">Visit Site &#8599;</a></td>
+    <td><span class="spec-tag spec-${c.spec}">${specLabel}</span></td>
+    <td><div class="badge-courses">${badges}</div></td>
+    <td><span class="date-open">${c.appOpen}</span></td>
+    <td><span class="date-close">${c.appClose}</span></td>
+    <td class="prereq-cell"><a class="btn-prereq" href="${c.prereqUrl}" target="_blank" rel="noopener">View Req. &#8599;</a></td>
+    <td>${satCell}</td>
+  </tr>`;
+}
+
+function renderRows(data) {
+  document.getElementById('tableBody').innerHTML = data.map((c,i) => buildRow(c,i)).join('');
+  document.getElementById('noResults').style.display = data.length ? 'none' : 'block';
+  document.getElementById('statsLabel').textContent = `Showing ${data.length} of ${colleges.length} universities`;
+  document.getElementById('totalCount').textContent = `${colleges.length} Universities`;
+}
+
+function sortByCol(col) {
+  if (currentSort.col === col) {
+    currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSort.col = col;
+    currentSort.dir = 'asc';
+  }
+  ['open','close'].forEach(c => {
+    document.getElementById('th-' + c).classList.remove('sort-asc','sort-desc');
+  });
+  document.getElementById('th-' + col).classList.add(currentSort.dir === 'asc' ? 'sort-asc' : 'sort-desc');
+  renderRows([...activeData].sort((a,b) => {
+    const da = parseDate(col === 'open' ? a.appOpen : a.appClose);
+    const db = parseDate(col === 'open' ? b.appOpen : b.appClose);
+    return currentSort.dir === 'asc' ? da - db : db - da;
+  }));
+}
+
+function setDegree(d) {
+  activeDegree = d;
+  document.querySelectorAll('.dbtn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.dbtn.' + (!d ? 'd-all' : 'd-' + d.toLowerCase())).classList.add('active');
+  filterTable();
+}
+
+function buildCourseDropdown() {
+  const all = new Set();
+  colleges.forEach(c => c.courses.forEach(x => {
+    const subject = x.replace(/^(BS|BA|BBA|BFA|BAS)\s+/i, '').trim();
+    all.add(subject);
+  }));
+  const sorted = [...all].sort((a,b) => a.localeCompare(b));
+  const sel = document.getElementById('courseFilter');
+  sorted.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s;
+    o.textContent = s;
+    sel.appendChild(o);
+  });
+}
+
+function filterTable() {
+  const q      = document.getElementById('searchBox').value.toLowerCase();
+  const sat    = document.getElementById('satFilter').value;
+  const course = document.getElementById('courseFilter').value.toLowerCase();
+
+  activeData = colleges.filter(c => {
+    const textMatch    = c.name.toLowerCase().includes(q) || c.location.toLowerCase().includes(q) || (c.spec && c.spec.toLowerCase().includes(q));
+    const countryMatch = !activeCountry || c.country === activeCountry;
+    const specMatch    = !activeSpec || c.spec === activeSpec;
+    const degreeMatch  = !activeDegree || c.courses.some(x => x.startsWith(activeDegree + ' ') || x === activeDegree);
+    const courseMatch  = !course || c.courses.some(x => x.toLowerCase().replace(/^(bs|ba|bba|bfa|bas)\s+/i,'').includes(course));
+    let satMatch = true;
+    if (sat === 'na')       satMatch = c.minSAT === null;
+    else if (sat === 'required') satMatch = c.minSAT !== null;
+    return textMatch && countryMatch && specMatch && satMatch && degreeMatch && courseMatch;
+  });
+
+  if (currentSort.col) {
+    activeData = [...activeData].sort((a,b) => {
+      const da = parseDate(currentSort.col === 'open' ? a.appOpen : a.appClose);
+      const db = parseDate(currentSort.col === 'open' ? b.appOpen : b.appClose);
+      return currentSort.dir === 'asc' ? da - db : db - da;
+    });
+  }
+
+  renderRows(activeData);
+}
+
+buildCourseDropdown();
+filterTable();
+</script>
+</body>
+</html>
