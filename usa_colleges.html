@@ -107,6 +107,7 @@
 <header>
   <h1>🇺🇸 US Public Colleges &amp; Universities — Bachelor's Degree Application Guide</h1>
   <p>Flagship R1 Universities · State Colleges · Community Colleges (bachelor's-granting) &nbsp;|&nbsp; All 50 States &nbsp;|&nbsp; Fall 2026 Intake</p>
+  <p style="font-size:11px;color:#a8c4dc;margin-top:4px;">🕒 Last updated: <span id="lastUpdated"></span></p>
 </header>
 
 <div class="flag-bar">
@@ -521,6 +522,10 @@ function filterTable() {
 
 buildCourseDropdown();
 filterTable();
+
+// Timestamp
+document.getElementById('lastUpdated').textContent =
+  new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
 </script>
 </body>
 </html>

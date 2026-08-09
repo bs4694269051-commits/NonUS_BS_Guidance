@@ -141,6 +141,16 @@
     .sat-note  { font-size: 10px; color: #57606a; display: block; margin-top: 1px; }
     .no-results { text-align: center; padding: 40px; color: #57606a; font-size: 14px; display: none; }
     footer { text-align: center; padding: 16px; font-size: 11px; color: #8b949e; border-top: 1px solid #e5e7eb; background: #fff; margin-top: 8px; }
+    /* SAT pill buttons */
+    .sat-pill { padding: 4px 14px; border-radius: 20px; border: 2px solid transparent; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s; background: #e9eef5; color: #1a3a5c; }
+    .sat-pill:hover { opacity: 0.85; }
+    .sat-active { border-color: #1a3a5c; }
+    .sat-na-btn   { background: #f0fdf4; color: #14532d; }
+    .sat-na-btn.sat-active   { border-color: #14532d; }
+    .sat-supp-btn { background: #fef3c7; color: #92400e; }
+    .sat-supp-btn.sat-active { border-color: #d97706; }
+    .sat-req-btn  { background: #dbeafe; color: #1e3a8a; }
+    .sat-req-btn.sat-active  { border-color: #1e3a8a; }
   </style>
 </head>
 <body>
@@ -148,6 +158,7 @@
 <header>
   <h1>International Public Universities — Bachelor's Degree Application Guide</h1>
   <p>Germany &nbsp;&#183;&nbsp; Netherlands &nbsp;&#183;&nbsp; Poland &nbsp;&#183;&nbsp; Ireland &nbsp;&#183;&nbsp; Italy &nbsp;&#183;&nbsp; Canada &nbsp;&#183;&nbsp; France &nbsp;&#183;&nbsp; Australia &nbsp;&#183;&nbsp; New Zealand &nbsp;|&nbsp; 2026–2027 &nbsp;|&nbsp; English-taught Bachelor's &nbsp;|&nbsp; incl. Space, Cyber, AI &amp; more</p>
+  <p style="font-size:11px;color:#a8c4dc;margin-top:4px;">🕒 Last updated: <span id="lastUpdated"></span></p>
 </header>
 
 <div class="flag-bar">
@@ -200,6 +211,15 @@
   <button class="spec-btn s-forensic" onclick="setSpec('Forensic')">&#128269; Forensic</button>
   <button class="spec-btn s-ai"      onclick="setSpec('AIGovernance')">&#129302; AI Governance</button>
   <button class="spec-btn s-policy"  onclick="setSpec('PolicyMaking')">&#128196; Policy Making</button>
+</div>
+
+<!-- SAT filter pills -->
+<div style="max-width:1480px;margin:8px auto 0;padding:0 16px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;">
+  <strong style="font-size:11px;color:#57606a;align-self:center;">SAT:</strong>
+  <button id="sat-btn-all"  class="sat-pill sat-active" onclick="setSATPill('')">🎓 All SAT Status</button>
+  <button id="sat-btn-na"   class="sat-pill sat-na-btn"   onclick="setSATPill('na')">✅ Not Required</button>
+  <button id="sat-btn-supp" class="sat-pill sat-supp-btn" onclick="setSATPill('supplementary')">🟡 Supplementary</button>
+  <button id="sat-btn-req"  class="sat-pill sat-req-btn"  onclick="setSATPill('required')">📊 Required (score)</button>
 </div>
 
 <div class="controls">
@@ -533,6 +553,20 @@ function filterTable() {
 
 buildCourseDropdown();
 filterTable();
+
+function setSATPill(val) {
+  document.getElementById('satFilter').value = val;
+  ['all','na','supp','req'].forEach(k => {
+    const map = { all:'', na:'na', supp:'supplementary', req:'required' };
+    const btn = document.getElementById('sat-btn-' + k);
+    if (btn) btn.classList.toggle('sat-active', map[k] === val);
+  });
+  filterTable();
+}
+
+// Timestamp
+document.getElementById('lastUpdated').textContent =
+  new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
 </script>
 </body>
 </html>
