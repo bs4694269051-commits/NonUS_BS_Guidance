@@ -209,7 +209,6 @@
         <th>#</th>
         <th class="sortable" id="th-tier"  onclick="sortBy('tier')">🎓 Tier</th>
         <th class="sortable" id="th-state" onclick="sortBy('state')">📍 State</th>
-        <th>🗺️ Region</th>
         <th>🏫 College &amp; Location</th>
         <th>🌐 Website</th>
         <th>📚 Courses Offered</th>
@@ -217,6 +216,7 @@
         <th class="sortable" id="th-close" onclick="sortBy('close')">⏰ App Deadline</th>
         <th>🔗 Prerequisites</th>
         <th class="sortable" id="th-sat"   onclick="sortBy('sat')">📊 Min SAT</th>
+        <th>🗺️ Region</th>
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>
@@ -497,7 +497,6 @@ function buildRow(c, i) {
     <td style="color:#57606a;font-weight:700;text-align:center;">${i+1}</td>
     <td>${tierBadge}</td>
     <td><span class="state-badge">${c.state}</span></td>
-    <td>${regionTag}</td>
     <td><div class="college-name">${c.name}</div><span class="location">📍 ${c.location}</span></td>
     <td><a class="btn-visit" href="${c.website}" target="_blank" rel="noopener">Visit ↗</a></td>
     <td><div class="badge-courses">${badges}</div></td>
@@ -505,6 +504,7 @@ function buildRow(c, i) {
     <td><span class="date-close">${markDate(c.appClose)}</span></td>
     <td><a class="btn-prereq" href="${PREREQ}" target="_blank" rel="noopener">View Req. ↗</a></td>
     <td><span class="sat-score">${c.minSAT}</span><span class="sat-note">${c.satNote}</span></td>
+    <td>${regionTag}</td>
   </tr>`;
 }
 
