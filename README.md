@@ -1,0 +1,3 @@
+- US Colleges : https://bs4694269051-commits.github.io/USA_BS_Guidance/usa_colleges.html
+- Non US college : https://bs4694269051-commits.github.io/USA_BS_Guidance/europe_colleges.html 
+- Sector Outlook https://bs4694269051-commits.github.io/USA_BS_Guidance/sector_outlook.html
